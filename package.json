@@ -4,7 +4,7 @@
   "description": "gen docs by rn demo.",
   "repository": {
     "type": "git",
-    "url": "git+____"
+    "url": "git+https://github.com/Saber2pr/tuya-docs-gen.git"
   },
   "author": "saber2pr",
   "license": "ISC",
