@@ -1,0 +1,50 @@
+{
+  "name": "@saber2pr/tuya-docs-gen",
+  "version": "0.0.1",
+  "description": "gen docs by rn demo.",
+  "repository": {
+    "type": "git",
+    "url": "git+____"
+  },
+  "author": "saber2pr",
+  "license": "ISC",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "./lib/index.js",
+  "bin": {
+    "tuya-docs-gen": "./lib/cli.js"
+  },
+  "scripts": {
+    "test": "jest src/__tests__",
+    "test:dev": "ts-node src/test",
+    "start": "tsc --watch",
+    "build": "tsc",
+    "prepublishOnly": "tsc",
+    "release": "standard-version",
+    "docs": "typedoc src/index.ts"
+  },
+  "dependencies": {
+    "@saber2pr/ts-compiler": "^0.2.1",
+    "@types/node": "^16.3.3",
+    "commander": "^8.2.0",
+    "consola": "^2.15.3",
+    "fs-extra": "^10.0.0",
+    "gogocode": "^1.0.35",
+    "prettier": "^2.4.1",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/jest": "^24.0.12",
+    "@types/prettier": "^2.4.1",
+    "jest": "^24.8.0",
+    "standard-version": "^9.3.1",
+    "ts-jest": "^24.0.2",
+    "typedoc": "^0.21.5"
+  }
+}
