@@ -1,49 +1,38 @@
-import $ from 'gogocode';
+import { traverser } from '@saber2pr/ts-compiler'
+import ts from 'typescript'
 
-type AstNode = ReturnType<typeof $>
+const parseListViewDemos = (rets: ts.ReturnStatement[]) => {
+  const lastRet = rets[rets.length - 1]
+  const ListView = traverser.findJsxElementByTagName(lastRet, 'ListView')[0]
 
-export class Parser {
-  private result: { title: string, content: string }[] = []
-  // match
-  private matchTitle(ast: AstNode) {
-    return ast.find(`title: $_$1`)
-  }
-  private matchContent(ast: AstNode) {
-    return ast.find(`content: $_$1`)
-  }
-  private matchItem(ast: AstNode) {
-    return ast.find(`{ title: $_$1, content: $_$2 }`)
-  }
-
-  // apply
-  private applyTitle(ast: AstNode) {
-    const title = ast.generate().replace(/^title:/, '').trim()
-    return title
-  }
-  private applyContent(ast: AstNode) {
-    return ast.generate().replace(/^content:/, '').trim()
-  }
-  private applyItem(ast: AstNode) {
-    const title = this.applyTitle(this.matchTitle(ast))
-    const content = this.applyContent(this.matchContent(ast))
-    return {
-      title,
-      content
-    }
+  if (ListView) {
+    const attrs = traverser.findJsxAttribute(ListView)
+    const list = attrs.filter(attr => attr.getText().startsWith('list='))[0]
+    const obJs = traverser.findObjectLiteralExpression(list)
+    return obJs.reduce((acc, obj) => {
+      const props = traverser.findPropertyAssignment(obj)
+      const title = props.find(prop => prop.getText().startsWith('title:'))
+      const content = props.find(prop => prop.getText().startsWith('content:'))
+      if (title && content) {
+        return acc.concat({
+          title: title.getChildAt(2).getText(),
+          content: content.getChildAt(2).getText(),
+        })
+      }
+      return acc
+    }, [] as Array<{ title: string; content: string }>)
   }
 
-  private scan(code: string) {
-    const item = this.matchItem($(code))
-    if (!item[0]) return
-    const result = this.applyItem(item)
-    this.result.push(result)
-    return code.slice(0, item.node.start) + '{}' + code.slice(item.node.end)
-  }
+  return []
+}
 
-  parse(code: string) {
-    while (code) {
-      code = this.scan(code)
-    }
-    return this.result
+export function parse(content: string) {
+  const root = traverser.createAstNode(content)
+  const exported = traverser.findExportAssignment(root)[0]
+  if (exported) {
+    const returnJSXs = traverser.findReturnStatement(exported)
+    const listViewDemos = parseListViewDemos(returnJSXs)
+    return listViewDemos
   }
+  return []
 }

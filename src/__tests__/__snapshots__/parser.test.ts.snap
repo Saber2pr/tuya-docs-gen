@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser Parse 1`] = `
+Array [
+  Object {
+    "content": "(
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                  }}
+                >
+                  {[100, 50, 20, 10].map((val, i) => (
+                    <View key={val} style={{ flexGrow: 1 }}>
+                      <Battery value={val} />
+                    </View>
+                  ))}
+                </View>
+              )",
+    "title": "Strings.getLang('style_basic')",
+  },
+  Object {
+    "content": "<Battery value={100} theme={{ batteryColor: '#FF4800' }} />",
+    "title": "Strings.getLang('battery_power_cus2')",
+  },
+  Object {
+    "content": "<Battery value={100} onCalcColor={calcColor} highColor=\\"#999\\" />",
+    "title": "Strings.getLang('battery_power_mod2')",
+  },
+]
+`;

@@ -7,3 +7,4 @@ lib/
 yarn.lock
 *.log
 dist
+test

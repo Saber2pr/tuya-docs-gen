@@ -1,4 +1,4 @@
-import { Parser } from ".."
+import { parse } from '..'
 
 describe('Parser', () => {
   it('Parse', () => {
@@ -77,33 +77,6 @@ describe('Parser', () => {
     };
     `
 
-    const parser = new Parser()
-    expect(parser.parse(code)).toEqual([
-      {
-        title: "Strings.getLang('style_basic')",
-        content: '(\n' +
-          '  <View\n' +
-          '    style={{\n' +
-          '      flex: 1,\n' +
-          "      flexDirection: 'row',\n" +
-          '    }}\n' +
-          '  >\n' +
-          '    {[100, 50, 20, 10].map((val, i) => (\n' +
-          '      <View key={val} style={{ flexGrow: 1 }}>\n' +
-          '        <Battery value={val} />\n' +
-          '      </View>\n' +
-          '    ))}\n' +
-          '  </View>\n' +
-          ')'
-      },
-      {
-        title: "Strings.getLang('battery_power_cus2')",
-        content: "<Battery value={100} theme={{ batteryColor: '#FF4800' }} />"
-      },
-      {
-        title: "Strings.getLang('battery_power_mod2')",
-        content: '<Battery value={100} onCalcColor={calcColor} highColor="#999" />'
-      }
-    ])
+    expect(parse(code)).toMatchSnapshot()
   })
 })
